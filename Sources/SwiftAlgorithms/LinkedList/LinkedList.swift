@@ -18,3 +18,4 @@ public protocol LinkedList {
     func size() -> Int
     
 }
+

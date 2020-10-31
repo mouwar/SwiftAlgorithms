@@ -6,10 +6,10 @@
 import Foundation
 
 public class LinkedListImpl<T>: LinkedList {
-    
-    private class Node<T> {
-        var element: T
-        var next: Node<T>?
+
+    fileprivate class Node<T> {
+        public var element: T
+        public var next: Node<T>?
         
         init(_ element: T, next: Node<T>?) {
             self.element = element
@@ -18,8 +18,8 @@ public class LinkedListImpl<T>: LinkedList {
     }
     
     private var count: Int
-    private var firstNode: Node<T>?
-    private var lastNode: Node<T>?
+    fileprivate var firstNode: Node<T>?
+    fileprivate var lastNode: Node<T>?
     
     public init() {
         count = 0
@@ -65,6 +65,30 @@ public class LinkedListImpl<T>: LinkedList {
     
     public func size() -> Int {
         return count
+    }
+    
+    
+}
+
+public struct LinkedListImplIterator<T>: IteratorProtocol {
+    private var node: LinkedListImpl<T>.Node<T>?
+    
+    init(_ linkedList: LinkedListImpl<T>) {
+        self.node = linkedList.firstNode
+    }
+
+    public mutating func next() -> T? {
+        let element = node?.element
+        node = node?.next
+        return element
+    }
+    
+}
+
+extension LinkedListImpl: Sequence {
+    
+    public func makeIterator() -> LinkedListImplIterator<T> {
+        return LinkedListImplIterator(self)
     }
     
 }
